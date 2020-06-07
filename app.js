@@ -1,7 +1,5 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const ejs = require('ejs')
-
 
 const app = express();
 
@@ -9,14 +7,12 @@ app.set('view engine', 'ejs');
 
 app.get('/', function (req, res) {
   const today = new Date();
-  var day = '';
+  const day = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  let dayIndex = today.getDay()
+  let callingDay = day[dayIndex]
 
-  if (today.getDay() === 6) {
-    res.send('Yayy its the weekend');
-  } else {
-    res.send('i have to work today');
-  }
-});
+  res.render('list', { kindOfDay: callingDay });
+})
 
 const port = process.env.PORT || 3000;
 
