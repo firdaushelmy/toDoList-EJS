@@ -6,10 +6,9 @@ const app = express();
 app.set('view engine', 'ejs');
 
 app.get('/', function (req, res) {
-  const today = new Date();
   const day = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  let dayIndex = today.getDay()
-  let callingDay = day[dayIndex]
+  const today = new Date();
+  let callingDay = day[today.getDay()]
 
   res.render('list', { kindOfDay: callingDay });
 })
