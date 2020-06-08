@@ -11,5 +11,19 @@
     <%} else {%>
     <h1 style="color: blue;">Today is <%= kindOfDay %></h1>
     <% }%>
+
+    <ul>
+      <li>pewpepwew</li>
+      <% for (let i=0; i<newListItems.length; i++) {%>
+      <li><%= newListItems[i] %></li>
+
+      <%}%>
+    </ul>
+
+    <form action="/" method="post">
+      <label for="todoList">Add in Stuff to do.</label>
+      <input type="text" name="newItem" />
+      <button type="submit" name="button">Add</button>
+    </form>
   </body>
 </html>
