@@ -7,24 +7,21 @@
     <link rel='stylesheet' href='css/styles.css' />
   </head>
   <body>
-    <% if (kindOfDay === 'Sunday' || kindOfDay === 'Saturday' ) { %>
-    <h1 style="color: red;">Today is <%= kindOfDay %></h1>
-    <%} else {%>
-    <h1 style="color: blue;">Today is <%= kindOfDay %></h1>
-    <% }%>
+    <div class='box' id='heading'>
+    <h1> <%= kindOfDay %> </h1>
+    </div>
+<div class="test"></div>
+    <div class='box'>
+      <% for (let i=0; i<newListItems.length; i++) { %>
+        <div class='item'>
+          <input type='checkbox'>
+          <p><%= newListItems[i] %></p>
+        </div>
+          <% } %>
 
-    <ul>
-      <li>pewpepwew</li>
-      <% for (let i=0; i<newListItems.length; i++) {%>
-      <li><%= newListItems[i] %></li>
-
-      <%}%>
-    </ul>
-
-    <form action="/" method="post">
-      <label for="todoList">Add in Stuff to do.</label>
-      <input type="text" name="newItem" />
-      <button type="submit" name="button">Add</button>
+    <form class='item' action="/" method='post'>
+      <input type='text' name='newItem' placeholder='New Item'/>
+      <button type='submit' name='button'>+</button>
     </form>
   </body>
 </html>

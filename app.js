@@ -10,11 +10,15 @@ app.use(express.static('public'));
 const items = [];
 
 app.get('/', function (req, res) {
-  const day = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  const today = new Date();
-  let callingDay = day[today.getDay()]
+  let today = new Date();
+  let options = {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long'
+  };
+  let day = today.toLocaleDateString('en-US', options);
 
-  res.render('list', { kindOfDay: callingDay, newListItems: items });
+  res.render('list', { kindOfDay: day, newListItems: items });
 })
 
 app.post('/', function (req, res) {
