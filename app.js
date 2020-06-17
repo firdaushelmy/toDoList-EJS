@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 const date = require(__dirname + '/date.js');
 
 const app = express();
@@ -8,8 +9,9 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-const items = [];
-const workItems = [];
+mongoose.connect('mongodb://localhost/27017/todolistDB', { useNewUrlParser: true, useUnifiedTopology: true })
+// const items = [];
+// const workItems = [];
 
 app.get('/', function (req, res) {
 
