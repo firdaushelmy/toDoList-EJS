@@ -9,31 +9,38 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-mongoose.connect('mongodb://localhost/27017/todolistDB', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb://localhost:27017/todolistDB', { useNewUrlParser: true, useUnifiedTopology: true })
 
 const itemsSchema = ({
   task: {
     type: 'string',
     required: true
   }
-}),
+});
 
 const Item = mongoose.model('Item', itemsSchema);
 
-const item = new Item({
+const item1 = new Item({
   task: 'do laundry'
 })
 
-const item = new Item({
+const item2 = new Item({
   task: 'Hit the + button to add task'
 })
 
-const item = new Item({
+const item3 = new Item({
   task: '<---- hit this to delete a task'
 })
 
-// const items = [];
-// const workItems = [];
+const defaultItems = [item1, item2, item3];
+
+Item.insertMany(defaultItems, function (err) {
+  if (err) {
+    console.log(err)
+  } else {
+    console.log('Successfully added defaultItems into DB')
+  }
+})
 
 app.get('/', function (req, res) {
 
