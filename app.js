@@ -45,7 +45,7 @@ const defaultItems = [item1, item2, item3];
 app.get('/', function (req, res) {
 
   let day = date.getDate()
-  Item.find({}, '-_id task', function (err, items) {
+  Item.find({}, function (err, items) {
     if (err) {
       console.log(err)
     } else {
