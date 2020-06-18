@@ -34,18 +34,24 @@ const item3 = new Item({
 
 const defaultItems = [item1, item2, item3];
 
-Item.insertMany(defaultItems, function (err) {
-  if (err) {
-    console.log(err)
-  } else {
-    console.log('Successfully added defaultItems into DB')
-  }
-})
+// Item.insertMany(defaultItems, function (err) {
+//   if (err) {
+//     console.log(err)
+//   } else {
+//     console.log('Successfully added defaultItems into DB')
+//   }
+// })
 
 app.get('/', function (req, res) {
 
   let day = date.getDate()
-  res.render('list', { listTitle: day, newListItems: items });
+  Item.find({}, '-_id task', function (err, items) {
+    if (err) {
+      console.log(err)
+    } else {
+      res.render('list', { listTitle: day, newListItems: items });
+    }
+  })
 })
 
 app.post('/', function (req, res) {
