@@ -13,7 +13,7 @@ mongoose.connect('mongodb://localhost:27017/todolistDB', { useNewUrlParser: true
 
 const itemsSchema = ({
   task: {
-    type: 'string',
+    type: String,
     required: true
   }
 });
@@ -33,14 +33,6 @@ const item3 = new Item({
 })
 
 const defaultItems = [item1, item2, item3];
-
-Item.insertMany(defaultItems, function (err) {
-  if (err) {
-    console.log(err)
-  } else {
-    console.log('Successfully added defaultItems into DB')
-  }
-})
 
 app.get('/', function (req, res) {
 
@@ -62,14 +54,16 @@ app.get('/', function (req, res) {
 })
 
 app.post('/', function (req, res) {
-  let item = req.body.newItem;
-  if (req.body.list === 'Work') {
-    workItems.push(item);
-    res.redirect('/work');
-  } else {
-    items.push(item);
+  let itemName = req.body.newItem;
+
+  Item.create({ task: itemName }, function (err) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('data entry successful!')
+    }
     res.redirect('/');
-  }
+  })
 });
 
 app.get('/work', function (req, res) {
