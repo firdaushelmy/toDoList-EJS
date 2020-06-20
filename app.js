@@ -60,11 +60,23 @@ app.post('/', function (req, res) {
     if (err) {
       console.log(err);
     } else {
-      console.log('data entry successful!')
+      console.log('data entry successful!');
     }
     res.redirect('/');
   })
 });
+
+app.post('/delete', function (req, res) {
+  let deleteEntry = (req.body.checkboxDel)
+  Item.deleteOne({ _id: deleteEntry }, function (err) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('data entry successfully deleted');
+    }
+    res.redirect('/');
+  })
+})
 
 app.get('/work', function (req, res) {
   res.render('list', { listTitle: 'Work List', newListItems: workItems });
