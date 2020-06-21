@@ -8,6 +8,7 @@ const app = express();
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
+const _ = require('lodash');
 
 mongoose.connect('mongodb://localhost:27017/todolistDB', { useNewUrlParser: true, useUnifiedTopology: true })
 
@@ -69,14 +70,20 @@ app.post('/', function (req, res) {
 app.post('/delete', function (req, res) {
   let deleteEntry = (req.body.checkboxDel)
   Item.deleteOne({ _id: deleteEntry }, function (err) {
-    if (err) {
-      console.log(err);
-    } else {
+    if (!err) {
       console.log('data entry successfully deleted');
-    }
-    res.redirect('/');
+    } res.redirect('/');
   })
 })
+
+app.get('/:dynamicLink', function (req, res) {
+  const dynamicLink = req.params.dynamicLink
+
+  Item.find({}, function (err, items) {
+    res.render('dynamicLink', { listTitle: dynamicLink, newListItems: items });
+  }
+  )
+});
 
 app.get('/work', function (req, res) {
   res.render('list', { listTitle: 'Work List', newListItems: workItems });
