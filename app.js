@@ -35,7 +35,6 @@ const item3 = new Item({
 const defaultItems = [item1, item2, item3];
 
 app.get('/', function (req, res) {
-
   let day = date.getDate()
   Item.find({}, function (err, items) {
     if (items.length === 0) {
@@ -63,7 +62,7 @@ app.post('/', function (req, res) {
       console.log('data entry successful!');
     }
     res.redirect('/');
-  })
+  });
 });
 
 app.post('/delete', function (req, res) {
@@ -85,20 +84,22 @@ const List = mongoose.model('List', listSchema)
 app.get('/:dynamicLink', function (req, res) {
   const dynamicLink = req.params.dynamicLink
 
-  const list = new List({
-    name: dynamicLink,
-    items: defaultItems
-  })
-  // list.save();
-
-  List.find({ name: dynamicLink }, function (err, result) {
-    if (err) {
-      console.log('does not exist');
-    } else {
-      console.log('exist');
+  List.findOne({ name: dynamicLink }, function (err, foundList) {
+    if (!err) {
+      if (!foundList) {
+        // create new list
+        const list = new List({
+          name: dynamicLink,
+          items: defaultItems
+        });
+        list.save();
+        res.redirect('/' + dynamicLink)
+      } else {
+        // show an existing list
+        res.render('list', { listTitle: foundList.name, newListItems: foundList.items });
+      }
     }
-  }
-  )
+  })
 });
 
 app.get('/work', function (req, res) {
