@@ -8,7 +8,6 @@ const app = express();
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
-const _ = require('lodash');
 
 mongoose.connect('mongodb://localhost:27017/todolistDB', { useNewUrlParser: true, useUnifiedTopology: true })
 
@@ -90,10 +89,14 @@ app.get('/:dynamicLink', function (req, res) {
     name: dynamicLink,
     items: defaultItems
   })
-  list.save();
+  // list.save();
 
-  Item.find({}, function (err, items) {
-    res.render('dynamicLink', { listTitle: dynamicLink, newListItems: items });
+  List.find({ name: dynamicLink }, function (err, result) {
+    if (err) {
+      console.log('does not exist');
+    } else {
+      console.log('exist');
+    }
   }
   )
 });
