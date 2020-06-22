@@ -76,8 +76,21 @@ app.post('/delete', function (req, res) {
   })
 })
 
+const listSchema = {
+  name: String,
+  items: [itemsSchema],
+};
+
+const List = mongoose.model('List', listSchema)
+
 app.get('/:dynamicLink', function (req, res) {
   const dynamicLink = req.params.dynamicLink
+
+  const list = new List({
+    name: dynamicLink,
+    items: defaultItems
+  })
+  list.save();
 
   Item.find({}, function (err, items) {
     res.render('dynamicLink', { listTitle: dynamicLink, newListItems: items });
