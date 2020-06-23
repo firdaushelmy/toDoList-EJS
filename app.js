@@ -71,12 +71,22 @@ app.post('/', function (req, res) {
 });
 
 app.post('/delete', function (req, res) {
-  let deleteEntry = (req.body.checkboxDel)
-  Item.deleteOne({ _id: deleteEntry }, function (err) {
-    if (!err) {
-      console.log('data entry successfully deleted');
-    } res.redirect('/');
-  })
+  const deleteEntry = req.body.checkboxDel
+  const checkboxName = req.body.checkboxName
+
+  if (checkboxName === 'Today') {
+    Item.deleteOne({ _id: deleteEntry }, function (err) {
+      if (!err) {
+        console.log('data entry successfully deleted');
+      } res.redirect('/');
+    })
+  } else {
+    List.findOneAndUpdate({ name: checkboxName }, { $pull: { items: { _id: deleteEntry } } }, function (err, foundList) {
+      if (!err) {
+        res.redirect('/' + checkboxName)
+      }
+    })
+  }
 })
 
 const listSchema = {
