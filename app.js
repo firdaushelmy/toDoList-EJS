@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const date = require(__dirname + '/date.js');
-
+const _ = require('lodash');
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -97,7 +97,7 @@ const listSchema = {
 const List = mongoose.model('List', listSchema)
 
 app.get('/:dynamicLink', function (req, res) {
-  const dynamicLink = req.params.dynamicLink
+  const dynamicLink = _.capitalize(req.params.dynamicLink)
 
   List.findOne({ name: dynamicLink }, function (err, foundList) {
     if (!err) {
