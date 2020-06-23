@@ -35,7 +35,6 @@ const item3 = new Item({
 const defaultItems = [item1, item2, item3];
 
 app.get('/', function (req, res) {
-  let day = date.getDate()
   Item.find({}, function (err, items) {
     if (items.length === 0) {
       Item.insertMany(defaultItems, function (err) {
@@ -47,22 +46,28 @@ app.get('/', function (req, res) {
       })
       res.redirect('/')
     } else {
-      res.render('list', { listTitle: day, newListItems: items });
+      res.render('list', { listTitle: 'Today', newListItems: items });
     }
   })
 })
 
 app.post('/', function (req, res) {
-  let itemName = req.body.newItem;
+  const itemName = req.body.newItem;
+  const listName = req.body.list;
+  const item = new Item({
+    task: itemName
+  })
 
-  Item.create({ task: itemName }, function (err) {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log('data entry successful!');
-    }
+  if (listName === 'Today') {
+    item.save();
     res.redirect('/');
-  });
+  } else {
+    List.findOne({ name: listName }, function (err, foundList) {
+      foundList.items.push(item);
+      foundList.save();
+      res.redirect('/' + listName)
+    })
+  }
 });
 
 app.post('/delete', function (req, res) {
