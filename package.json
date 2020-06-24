@@ -21,6 +21,9 @@
   },
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": "14.4.0"
+  },
   "bugs": {
     "url": "https://github.com/firdaushelmy/toDoList-EJS/issues"
   },
